@@ -1,6 +1,6 @@
 "use client";
 import { Mail, Phone, Building2 } from 'lucide-react';
-
+// gfhjhkjk
 const Footer = () => {
   return (
     <footer className="bg-blue-950 text-white px-6 py-12">

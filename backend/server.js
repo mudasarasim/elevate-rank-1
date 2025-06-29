@@ -14,6 +14,7 @@ connectDB();
 // Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use('/api/websites', require('./routes/websites')); // new websites route
+app.use('/api/payments', require('./routes/payments')); // new websites route
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

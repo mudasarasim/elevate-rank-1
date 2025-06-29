@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Website = require('../models/Website');
+const Payment = require('../models/Payment'); // Import the Payment model
 
 // POST - Add new website info
 router.post('/add-website', async (req, res) => {
@@ -63,7 +64,6 @@ router.get('/filter/category', async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 });
-
 
 // ✅ Get a single website by ID
 router.get('/:id', async (req, res) => {

@@ -8,13 +8,15 @@ import Link from "next/link";
 const Sidebar = ({ isSidebarOpen, toggleSidebar, setIsLoggedIn }) => {
   const router = useRouter();
   const [dashboardLink, setDashboardLink] = useState("/client-dashboard");
+  const [isAdmin, setIsAdmin] = useState(false); // State to track if the user is admin
 
-  // Set dashboard link based on localStorage status
+  // Set dashboard link and check for admin status based on localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       const status = localStorage.getItem("status");
       if (status === "admin") {
         setDashboardLink("/admin-dashboard");
+        setIsAdmin(true); // Set isAdmin to true if the user is admin
       }
     }
   }, []);
@@ -68,6 +70,17 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar, setIsLoggedIn }) => {
             >
               <WebcamIcon className="mr-2" /> All Websites
             </Link>
+
+            {/* Show All Payments link only if the user is an admin */}
+            {isAdmin && (
+              <Link
+                href="/all-payments"
+                className="flex items-center hover:text-blue-800 dark:hover:text-blue-300"
+              >
+                <WebcamIcon className="mr-2" /> All Payments
+              </Link>
+            )}
+
             <a
               href="#"
               className="flex items-center hover:text-blue-800 dark:hover:text-blue-300"

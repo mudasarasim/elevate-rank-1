@@ -41,6 +41,49 @@ const AllWebsites = () => {
       onApprove: async (data, actions) => {
         const order = await actions.order.capture();
         alert("Payment successful!");
+
+        // After payment success, insert details into the database
+        // Define the website details from the selected website
+        // Retrieve user object from localStorage
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        // Check if user object exists and contains username and email
+        if (!user || !user.name || !user.email) {
+          alert("User information is missing. Please log in.");
+          return; // Exit if username or email is missing
+        }
+
+        // Extract username and email from the user object
+        const username = user.name;
+        const email = user.email;
+
+        const websiteDetails = {
+          username: username,  // Use the username
+          email: email,        // Use the email
+          websiteName: selectedWebsite.name,
+          websiteUrl: selectedWebsite.url,
+          paidAmount: selectedWebsite.price || "9.98", // Default to 9.98 if no price
+        };
+
+        try {
+          // Make an API call to your backend to save the payment details
+          const res = await fetch("http://localhost:5000/api/payments/insert-payment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(websiteDetails),
+          });
+
+          if (res.ok) {
+            console.log("Payment details inserted successfully");
+          } else {
+            console.error("Failed to insert payment details");
+          }
+        } catch (error) {
+          console.error("Error during payment details insertion:", error);
+        }
+
         setShowPaymentModal(false);
       },
       onError: (err) => {
@@ -206,7 +249,7 @@ const AllWebsites = () => {
           />
         </div>
 
-       
+
 
         <div className="overflow-x-auto">
           <div className="min-w-[900px]">
